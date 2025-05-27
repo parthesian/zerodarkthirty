@@ -1,0 +1,125 @@
+# Basketball Analytics Pipeline Configuration
+
+# GPU Settings
+gpu_id: 0
+
+# Object Detection Configuration
+detection:
+  model_path: "models/yolov8n.pt"  # YOLOv8 model for player/ball detection
+  conf_threshold: 0.5
+  iou_threshold: 0.4
+  classes:
+    person: 0
+    sports_ball: 32
+  input_size: [640, 640]
+
+# SAM2 Segmentation Configuration
+segmentation:
+  sam2_model_path: "models/sam2_hiera_tiny.pt"
+  model_cfg: "sam2_hiera_t.yaml"
+  memory_frames: 10  # Number of frames to keep in memory
+  prompt_threshold: 0.7
+
+# Multi-Object Tracking Configuration
+tracking:
+  tracker_type: "bytetrack"  # Options: bytetrack, botsort, strongsort
+  max_disappeared: 30  # Max frames before removing a track
+  min_hits: 3  # Minimum detections before confirming track
+  iou_threshold: 0.3
+  track_buffer: 30
+
+# Pose Estimation Configuration
+pose:
+  model_path: "models/pose_hrnet_w32_coco_256x192.pth"
+  input_size: [192, 256]
+  confidence_threshold: 0.3
+  keypoint_threshold: 0.2
+
+# Action Classification Configuration
+action:
+  model_path: "models/action_r2plus1d_basketball.pth"
+  window_size: 16  # Number of frames for action classification
+  inference_interval: 8  # Run action classification every N frames
+  classes:
+    - "dribble"
+    - "pass"
+    - "shoot"
+    - "rebound"
+    - "off_ball"
+    - "defense"
+  confidence_threshold: 0.6
+
+# Event Detection Configuration
+events:
+  shot_detection:
+    enabled: true
+    ball_height_threshold: 2.5  # Meters above ground
+    trajectory_analysis: true
+  pass_detection:
+    enabled: true
+    min_distance: 1.0  # Minimum distance for pass
+    max_time: 3.0  # Maximum time for pass completion
+  rebound_detection:
+    enabled: true
+    rim_proximity_threshold: 1.5  # Distance from rim
+  possession_tracking:
+    enabled: true
+    ball_player_distance: 0.8  # Distance threshold for possession
+
+# Court Detection Configuration (optional)
+court:
+  enabled: false
+  homography_detection: true
+  court_template: "assets/court_template.png"
+
+# Visualization Configuration
+visualization:
+  draw_bboxes: true
+  draw_masks: true
+  draw_skeletons: true
+  draw_tracks: true
+  draw_actions: true
+  draw_events: true
+  colors:
+    player: [0, 255, 0]  # Green
+    ball: [255, 165, 0]  # Orange
+    track: [255, 255, 0]  # Yellow
+    skeleton: [255, 0, 255]  # Magenta
+  font_scale: 0.6
+  thickness: 2
+
+# Video Processing Configuration
+video:
+  output_fps: 30
+  output_resolution: [1280, 720]  # [width, height], null for original
+  codec: "mp4v"
+  quality: 90
+
+# Performance Optimization
+optimization:
+  half_precision: true  # Use FP16 for faster inference
+  batch_size: 1
+  num_workers: 4
+  prefetch_factor: 2
+  frame_skip: 1  # Process every Nth frame (1 = all frames)
+
+# Data Augmentation (for training)
+augmentation:
+  enabled: false
+  brightness: 0.2
+  contrast: 0.2
+  saturation: 0.2
+  hue: 0.1
+  noise: 0.05
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  save_logs: true
+  log_file: "logs/basketball_analytics.log"
+
+# Output Configuration
+output:
+  save_intermediate: false  # Save intermediate results (detections, tracks, etc.)
+  save_debug_frames: false  # Save frames with debug annotations
+  json_format: "detailed"  # Options: minimal, standard, detailed 

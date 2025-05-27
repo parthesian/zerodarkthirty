@@ -1,0 +1,57 @@
+# Core ML/CV Libraries
+torch>=2.0.0
+torchvision>=0.15.0
+opencv-python>=4.8.0
+numpy>=1.24.0
+pillow>=9.5.0
+
+# Object Detection & Tracking
+ultralytics>=8.0.0  # YOLOv8
+detectron2 @ git+https://github.com/facebookresearch/detectron2.git
+
+# SAM2 Segmentation
+segment-anything-2 @ git+https://github.com/facebookresearch/segment-anything-2.git
+
+# Pose Estimation
+mmpose>=1.0.0
+mmcv>=2.0.0
+mmengine>=0.8.0
+
+# Action Recognition
+mmaction2>=1.0.0
+
+# Tracking
+supervision>=0.16.0
+filterpy>=1.4.5
+
+# Video Processing
+ffmpeg-python>=0.2.0
+imageio>=2.31.0
+moviepy>=1.0.3
+
+# Data Processing
+pandas>=2.0.0
+scipy>=1.10.0
+scikit-learn>=1.3.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# Configuration & Utilities
+pyyaml>=6.0
+tqdm>=4.65.0
+click>=8.1.0
+loguru>=0.7.0
+
+# Development & Testing
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+jupyter>=1.0.0
+
+# Optional: For web dashboard
+streamlit>=1.25.0
+fastapi>=0.100.0
+uvicorn>=0.23.0 
